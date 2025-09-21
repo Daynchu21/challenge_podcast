@@ -18,21 +18,36 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.merge_commit_sha }}
+          fetch-depth: 0
 
-      - name: Use Node to read version
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Read package version
         id: pkg
-        run: echo "version=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
+        shell: bash
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          if [ -z "$VERSION" ]; then
+            echo "No se pudo leer la versión de package.json" >&2
+            exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Prepare release notes (fallback)
         id: notes
+        shell: bash
         run: |
-          echo "body=Release v${{ steps.pkg.outputs.version }} (auto)"
-          echo "body<<'EOF'" >> $GITHUB_OUTPUT
-          echo "### Cambios incluidos" >> $GITHUB_OUTPUT
-          echo "" >> $GITHUB_OUTPUT
-          echo "- Merge de \`develop\` a \`main\`" >> $GITHUB_OUTPUT
-          echo "- Revisa el historial de commits para detalles" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          {
+            echo "body<<'EOF'"
+            echo "### Cambios incluidos"
+            echo
+            echo "- Merge de \`develop\` a \`main\`"
+            echo "- Revisa el historial de commits para detalles"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Create Git tag & GitHub Release
         uses: ncipollo/release-action@v1
