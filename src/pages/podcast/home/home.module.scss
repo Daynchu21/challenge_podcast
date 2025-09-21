@@ -1,0 +1,54 @@
+$header-h: 64px;
+
+.homeContainer {
+  padding: 1.5rem;
+}
+
+.filterBar {
+  position: sticky;
+  top: calc($header-h + 0.75rem); // pegado debajo del header
+  z-index: 30; // por encima de las cards
+  background: #fff;
+  padding: 0.5rem 0.75rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 0 0 2rem 0;
+  max-width: fit-content;
+  justify-self: end;
+}
+
+.input {
+  width: auto;
+  border: 1px solid #ccc;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+}
+
+.gridWrapper {
+  width: 100%;
+}
+
+.podcastGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+  width: 100%;
+}
+
+.loading {
+  font-size: 1.2rem;
+  color: #888;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.error {
+  font-size: 1.2rem;
+  color: #d00;
+  text-align: center;
+  margin-top: 2rem;
+}

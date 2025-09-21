@@ -40,7 +40,10 @@ export default defineConfig([
       },
     },
     plugins: { 'react-hooks': reactHooks },
-    rules: { ...reactHooks.configs['recommended-latest'].rules },
+    rules: {
+      ...reactHooks.configs['recommended-latest'].rules,
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
   },
 
   // Vite Fast Refresh para React
