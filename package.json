@@ -1,7 +1,7 @@
 {
   "name": "challenge_podcast",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "engines": {
     "node": ">=20.0.0"
@@ -18,9 +18,14 @@
     "format:check": "prettier . --check"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.89.0",
+    "@tanstack/react-query-devtools": "^5.89.0",
     "@testing-library/jest-dom": "^6.8.0",
+    "framer-motion": "^12.23.16",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "react-router-dom": "^7.9.1",
+    "sass": "^1.93.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",

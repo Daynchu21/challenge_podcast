@@ -1,0 +1,32 @@
+$blue: #0ea5e9; // azul tipo Tailwind sky-500/600
+$blue-dark: #0284c7;
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.25rem; // ancho mínimo
+  height: 1.75rem;
+  padding: 0 0.55rem;
+  border-radius: 9999px; // pill
+  background: $blue;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1;
+  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.35);
+  user-select: none;
+
+  /* opcional: posición fija arriba derecha */
+  &.fixed {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 100;
+  }
+
+  /* hover/active por si es clicable en el futuro */
+  &:hover {
+    background: $blue-dark;
+  }
+}
