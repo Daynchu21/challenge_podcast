@@ -1,0 +1,59 @@
+name: Auto PR develop → main
+
+on:
+  push:
+    branches: [develop]
+  workflow_dispatch:
+
+jobs:
+  open-pr:
+    name: Open or update PR to main
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+    steps:
+      - name: Create or update PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: prs } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              base: 'main',
+              head: `${context.repo.owner}:develop`,
+            });
+
+            const title = 'Release: develop → main';
+            const body = [
+              'Este PR integra los cambios de `develop` en `main`.',
+              '',
+              '**Checklist**',
+              '- [ ] CI en verde',
+              '- [ ] Versión en `package.json` actualizada (npm version)',
+              '- [ ] Changelog/Notas de release (si aplica)',
+            ].join('\n');
+
+            if (prs.length) {
+              const pr = prs[0];
+              await github.rest.pulls.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pr.number,
+                title,
+                body,
+              });
+              core.info(`PR actualizado #${pr.number}`);
+            } else {
+              const { data: pr } = await github.rest.pulls.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                base: 'main',
+                head: 'develop',
+                title,
+                body,
+                draft: false
+              });
+              core.info(`PR creado #${pr.number}`);
+            }

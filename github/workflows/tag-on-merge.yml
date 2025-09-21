@@ -1,0 +1,45 @@
+name: Tag & Release on merge to main
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  tag-and-release:
+    if: >
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.base.ref == 'main' &&
+      github.event.pull_request.head.ref == 'develop'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # necesario para crear tags y releases
+    steps:
+      - name: Checkout repository at merge commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+
+      - name: Use Node to read version
+        id: pkg
+        run: echo "version=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
+
+      - name: Prepare release notes (fallback)
+        id: notes
+        run: |
+          echo "body=Release v${{ steps.pkg.outputs.version }} (auto)"
+          echo "body<<'EOF'" >> $GITHUB_OUTPUT
+          echo "### Cambios incluidos" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "- Merge de \`develop\` a \`main\`" >> $GITHUB_OUTPUT
+          echo "- Revisa el historial de commits para detalles" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create Git tag & GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: v${{ steps.pkg.outputs.version }}
+          name: v${{ steps.pkg.outputs.version }}
+          body: ${{ steps.notes.outputs.body }}
+          draft: false
+          prerelease: false
+          generateReleaseNotes: true

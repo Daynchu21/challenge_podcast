@@ -1,0 +1,32 @@
+name: Guard main from non-develop PRs
+
+on:
+  pull_request:
+    branches: [main] # solo cuando el PR apunta a main
+    types: [opened, reopened, synchronize, edited]
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    steps:
+      - name: Fail if PR base is main and head is not develop (allow release bot)
+        run: |
+          BASE="${{ github.event.pull_request.base.ref }}"
+          HEAD="${{ github.event.pull_request.head.ref }}"
+          ACTOR="${{ github.actor }}"
+
+          echo "Base: $BASE | Head: $HEAD | Actor: $ACTOR"
+
+          if [ "$BASE" = "main" ] && [ "$HEAD" != "develop" ]; then
+            # Permite PRs del bot de release-please
+            if [[ "$HEAD" =~ ^release-please--branches--main-- ]] || [ "$ACTOR" = "github-actions[bot]" ]; then
+              echo "Permitido: PR de release-please"
+              exit 0
+            fi
+            echo "::error::Solo se permiten PRs a main desde 'develop' (o el bot de release-please). Rama: $HEAD"
+            exit 1
+          fi
+
+          echo "OK"
