@@ -13,11 +13,6 @@ type PodcastEntry = {
   'im:image': { label: string }[];
 };
 
-type PodcastsResponse = {
-  feed: { entry: PodcastEntry[] };
-};
-
-// fetcher con control de localStorage
 async function fetchPodcasts(): Promise<PodcastEntry[]> {
   const cached = localStorage.getItem(PODCASTS_KEY);
   if (cached) {
@@ -28,12 +23,13 @@ async function fetchPodcasts(): Promise<PodcastEntry[]> {
   }
 
   try {
-    const res = await fetchApi<PodcastsResponse>(
-      'https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json',
+    const res = await fetchApi(
+      `https://api.allorigins.win/get?url=${encodeURIComponent('https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json')}`,
       { method: 'GET' },
     );
-    if (res.data) {
-      const data = res?.data?.feed.entry;
+    const response = res.data.contents ? JSON.parse(res.data.contents) : null;
+    if (response) {
+      const data = response.feed.entry;
       localStorage.setItem(PODCASTS_KEY, JSON.stringify({ timestamp: Date.now(), data }));
       return data;
     } else {
@@ -50,7 +46,7 @@ async function fetchPodcasts(): Promise<PodcastEntry[]> {
 
 export function usePodcasts() {
   return useQuery<PodcastEntry[]>({
-    queryKey: ['podcasts'],
+    queryKey: ['podcasts_details'],
     queryFn: fetchPodcasts,
     staleTime: ONE_DAY, // evita refetch innecesario
   });
