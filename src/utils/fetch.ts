@@ -4,15 +4,12 @@ export type FetchOptions = {
   body?: any;
 };
 
-export type FetchResult<T = any> = {
-  data: T | null;
-  error: { status: number; message: string } | null;
+export type FetchResult = {
+  data: any | null;
+  error?: null | { status: number; message: string | null }; // Simplified error handl
 };
 
-export async function fetchApi<T = any>(
-  url: string,
-  options: FetchOptions = {},
-): Promise<FetchResult<T>> {
+export async function fetchApi(url: string, options: FetchOptions = {}): Promise<FetchResult> {
   const { method = 'GET', headers = {}, body } = options;
   const fetchOptions: RequestInit = {
     method,
@@ -26,25 +23,19 @@ export async function fetchApi<T = any>(
   }
   try {
     const res = await fetch(url, fetchOptions);
-    const contentType = res.headers.get('content-type');
-    let data: T | string | null = null;
-    if (contentType && contentType.includes('application/json')) {
-      data = await res.json();
-    } else {
-      data = await res.text();
-    }
     if (!res.ok) {
       return {
         data: null,
-        error: { status: res.status, message: typeof data === 'string' ? data : res.statusText },
+        error: { status: res.status, message: typeof res === 'string' ? res : res.statusText },
       };
     }
-    return { data: data as T, error: null };
-  } catch (error: any) {
-    return { data: null, error: { status: 0, message: error?.message || 'Network error' } };
+
+    return { data: res };
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error('An unknown error occurred');
+    }
   }
 }
-
-// Ejemplo de uso:
-// const data = await fetchApi('/api/podcasts');
-// const post = await fetchApi('/api/podcasts', { method: 'POST', body: { name: 'test' } });
