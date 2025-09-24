@@ -1,0 +1,24 @@
+.podcastLayout {
+  display: grid;
+  grid-template-columns: 300px 1fr; // izquierda 300px, derecha flexible
+  gap: 4rem;
+  align-items: start;
+  font-family: Arial, sans-serif;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+}
+
+.episodeSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

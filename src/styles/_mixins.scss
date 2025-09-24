@@ -1,0 +1,37 @@
+@use '@/styles/variables' as *;
+
+$breakpoint-mobile: $breakpoint-sm;
+$breakpoint-tablet: $breakpoint-md;
+$breakpoint-desktop: $breakpoint-lg;
+
+@mixin mobile {
+  @media (max-width: #{$breakpoint-mobile}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: #{$breakpoint-tablet}) and (max-width: #{$breakpoint-desktop - 1}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$breakpoint-desktop}) {
+    @content;
+  }
+}
+
+// Mixin para ocultar en mobile
+@mixin hide-mobile {
+  @include mobile {
+    display: none !important;
+  }
+}
+
+// Mixin para ocultar en desktop
+@mixin hide-desktop {
+  @include desktop {
+    display: none !important;
+  }
+}

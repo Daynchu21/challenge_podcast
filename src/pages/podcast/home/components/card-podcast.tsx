@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Image from '../../../../UI/Image';
 import styles from './card-podcast.module.scss';
-// Usa tu componente reutilizable de imagen. Ajusta la ruta si es diferente.
 
 export type PodcastCardProps = {
   title: string;
@@ -13,11 +12,6 @@ export type PodcastCardProps = {
   onClick?: () => void;
 };
 
-/**
- * CardPodcast
- * Una tarjeta simple como en la captura: imagen redonda arriba,
- * título en negritas y subtítulo "Author: ...".
- */
 const CardPodcast: React.FC<PodcastCardProps> = ({
   title,
   author,
@@ -43,9 +37,10 @@ const CardPodcast: React.FC<PodcastCardProps> = ({
             className={styles.cardPodcast__image}
             ariaLabel="Podcast cover image"
             size={112}
+            rounded={true}
           />
 
-          <h3 className={styles.cardPodcast__title}>{title}</h3>
+          <p className={styles.cardPodcast__title}>{title}</p>
           <p className={styles.cardPodcast__author}>Author: {author}</p>
         </div>
       </div>

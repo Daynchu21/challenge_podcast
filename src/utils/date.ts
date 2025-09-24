@@ -18,3 +18,5 @@ export function formatDateISO(date: string | Date): string {
   const d = typeof date === 'string' ? new Date(date) : date;
   return d.toISOString().slice(0, 10);
 }
+
+export const TIME_GETTER = 1000 * 60 * 60 * 24;

@@ -35,11 +35,10 @@ header {
   padding: 1rem 2rem;
 }
 
-header h1,
-header .logo {
+header p {
   font-weight: 600;
-  font-size: 1.25rem;
-  color: #111827;
+  font-size: 1.5rem;
+  color: #32698a;
   text-decoration: none;
 }
 
