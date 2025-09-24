@@ -4,43 +4,49 @@
   box-shadow: -1px 0px 8px -1px rgba(0, 0, 0, 0.51);
   display: flex;
   flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  gap: 1rem;
 
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
   img {
     width: 100%;
     height: auto;
     display: block;
   }
 
-  .content {
-    padding: 1rem;
+  .title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0;
+  }
 
-    .title {
-      font-size: 1.1rem;
-      font-weight: bold;
-      margin: 0;
-    }
+  .author {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 1rem;
+    font-style: italic;
+  }
 
-    .author {
-      font-size: 0.9rem;
-      color: #555;
-      margin-bottom: 1rem;
-    }
+  .descriptionLabel {
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+  }
 
-    .description-label {
-      font-size: 0.9rem;
-      font-weight: bold;
-      margin-bottom: 0.3rem;
-    }
+  .descriptionText {
+    font-size: 0.85rem;
+    color: #333;
+    line-height: 1.4;
+    font-style: italic;
+  }
 
-    .description-text {
-      font-size: 0.85rem;
-      color: #333;
-      line-height: 1.4;
-      font-style: italic;
-    }
-
-    .hr {
-      border-top: 1px solid rgb(213, 213, 213);
-    }
+  .hr {
+    border-top: 1px solid rgb(213, 213, 213);
   }
 }

@@ -10,20 +10,19 @@ const DetailsPodcastHome: React.FC = () => {
 
   if (isLoading) return <p>Cargando...</p>;
   if (error) return <p>Error al cargar detalles del podcast</p>;
-  if (!data) return <p>No hay datos disponibles</p>;
+  if (!data?.author) return <p>No hay datos disponibles</p>;
+  console.log(data, 'data');
   return (
     <div className={style.podcastLayout}>
       <PodcastCard
         image={data.author.image}
         title={data.author.title}
-        subtitle={data.author.subtitle}
+        author={data.author.author}
         description={data.author.description}
       />
       <div className={style.episodeSection}>
-        <HeaderTrack trackCounts={data.tracks.length} />
-        <div>
-          <Table rows={data.tracks} />
-        </div>
+        <HeaderTrack trackCounts={data.episodes.length} />
+        <Table rows={data.episodes} />
       </div>
     </div>
   );

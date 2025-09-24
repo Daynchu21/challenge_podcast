@@ -11,6 +11,7 @@ export type InputProps = {
   ariaLabel?: string;
   disabled?: boolean;
   autoFocus?: boolean;
+  dataTestId?: string;
 };
 
 const Input: React.FC<InputProps> = ({
@@ -24,6 +25,7 @@ const Input: React.FC<InputProps> = ({
   ariaLabel,
   disabled = false,
   autoFocus = false,
+  dataTestId,
 }) => {
   return (
     <input
@@ -37,6 +39,7 @@ const Input: React.FC<InputProps> = ({
       aria-label={ariaLabel}
       disabled={disabled}
       autoFocus={autoFocus}
+      data-testid={dataTestId}
       style={{
         padding: '0.5rem 1rem',
         borderRadius: '0.5rem',
