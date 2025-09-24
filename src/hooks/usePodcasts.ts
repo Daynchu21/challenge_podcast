@@ -1,36 +1,61 @@
 // src/hooks/usePodcasts.ts
 import { useQuery } from '@tanstack/react-query';
 import { fetchApi } from '../utils/fetch';
+import { ItunesFeedSchema, type ItunesFeedRaw } from '../schemas/itunesSchema';
+import type { PodcastIF } from '../types';
+import { adapterFunction } from '../utils/normalizeArray';
+import { TIME_GETTER } from '../utils/date';
 
-const PODCASTS_KEY = 'popular_podcasts';
-const ONE_DAY = 1000 * 60 * 60 * 24;
+export function normalizeItunesItem(raw: ItunesFeedRaw): PodcastIF {
+  const biggestImage = raw['im:image'].reduce((prev, current) => {
+    const prevHeight = parseInt(prev.attributes?.height ?? '0', 10);
+    const currHeight = parseInt(current.attributes?.height ?? '0', 10);
+    return currHeight > prevHeight ? current : prev;
+  });
 
-type PodcastEntry = {
-  id: { attributes: { 'im:id': string } };
-  'im:name': { label: string };
-  'im:artist': { label: string };
-  summary: { label: string };
-  'im:image': { label: string }[];
-};
+  return {
+    id: raw.id.attributes['im:id'],
+    url: raw.id.label,
+    title: raw['im:name'].label,
+    author: raw['im:artist'].label,
+    description: raw.summary.label,
+    images: biggestImage.label,
+    releaseDate: raw['im:releaseDate'].label,
+    summary: raw.summary.label,
+  };
+}
 
-async function fetchPodcasts(): Promise<PodcastEntry[]> {
-  const cached = localStorage.getItem(PODCASTS_KEY);
+async function fetchPodcasts() {
+  const PODCAST_KEY = import.meta.env.VITE_KEY_PODCAST_STORAGE || '';
+  const cached = localStorage.getItem(PODCAST_KEY);
   if (cached) {
     const { timestamp, data } = JSON.parse(cached);
-    if (Date.now() - timestamp < ONE_DAY) {
+    if (Date.now() - timestamp < TIME_GETTER) {
       return data;
     }
   }
 
   try {
     const res = await fetchApi(
-      `https://api.allorigins.win/get?url=${encodeURIComponent('https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json')}`,
+      `https://corsproxy.io/?${encodeURIComponent('https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json')}`,
       { method: 'GET' },
     );
-    const response = res.data.contents ? JSON.parse(res.data.contents) : null;
-    if (response) {
-      const data = response.feed.entry;
-      localStorage.setItem(PODCASTS_KEY, JSON.stringify({ timestamp: Date.now(), data }));
+    let json: any;
+    if (res.data instanceof Response) {
+      json = await res.data.json(); // parsea aquí
+    } else {
+      json = res.data;
+    }
+    if (json) {
+      const data = adapterFunction<ItunesFeedRaw, PodcastIF>(
+        json.feed.entry,
+        ItunesFeedSchema,
+        normalizeItunesItem,
+      );
+      localStorage.setItem(
+        import.meta.env.VITE_KEY_PODCAST_STORAGE || '',
+        JSON.stringify({ timestamp: Date.now(), data }),
+      );
       return data;
     } else {
       return [];
@@ -45,9 +70,9 @@ async function fetchPodcasts(): Promise<PodcastEntry[]> {
 }
 
 export function usePodcasts() {
-  return useQuery<PodcastEntry[]>({
+  return useQuery<PodcastIF[]>({
     queryKey: ['podcasts_details'],
     queryFn: fetchPodcasts,
-    staleTime: ONE_DAY, // evita refetch innecesario
+    staleTime: TIME_GETTER,
   });
 }

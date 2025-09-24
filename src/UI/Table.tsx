@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './Table.module.scss';
-import type { PodcastEntry } from '../hooks/usePodcastsDetails';
 import { useNavigate } from 'react-router-dom';
 import { formatDate } from '../utils/date';
 import { formatMillisToTime } from '../utils/time';
+import type { Episode } from '../types';
 
 export type TableRow = {
   id: string;
@@ -14,13 +14,12 @@ export type TableRow = {
 };
 
 export type TableProps = {
-  rows: Array<PodcastEntry>;
+  rows: Array<Episode>;
   className?: string;
 };
 
 const Table: React.FC<TableProps> = ({ rows, className }) => {
   const navigate = useNavigate();
-
   const onTitleClick = (trackId: number, collectionId: number) => {
     navigate(`/podcast/${collectionId}/episode/${trackId}`);
   };
@@ -36,17 +35,18 @@ const Table: React.FC<TableProps> = ({ rows, className }) => {
         </thead>
         <tbody>
           {rows.map((row) => (
-            <tr key={row.trackId}>
+            <tr key={row.id} data-testid="episode-row">
               <td>
                 <span
                   className={styles.table__title}
-                  onClick={() => onTitleClick(row.trackId, row.collectionId)}
+                  onClick={() => onTitleClick(row.id, row.collectionId)}
+                  data-testid="episode-link"
                 >
-                  {row.trackName}
+                  {row.title}
                 </span>
               </td>
               <td>{formatDate(row.releaseDate || '')}</td>
-              <td>{formatMillisToTime(row.trackTimeMillis || 0)}</td>
+              <td>{formatMillisToTime(row.duration || 0)}</td>
             </tr>
           ))}
         </tbody>
