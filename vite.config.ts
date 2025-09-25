@@ -12,8 +12,12 @@ export default defineConfig({
     },
   },
   test: {
-    environment: 'jsdom',
     globals: true,
-    setupFiles: './src/test/setup.ts',
+    environment: 'jsdom',
+    setupFiles: './tests/setup.ts',
+    exclude: ['tests/e2e/**', 'node_modules/**'],
+    coverage: {
+      reporter: ['text', 'json', 'html'],
+    },
   },
 });
