@@ -1,183 +1,137 @@
 # 🎧 Challenge Podcast – Frontend
 
-Mini-aplicación para escuchar podcasts musicales.  
-Desarrollada en **React + TypeScript + Vite** como parte de la prueba técnica Frontend.
+Mini aplicación SPA para explorar y reproducir podcasts musicales, desarrollada como parte de la prueba técnica **Frontend INDITEX**.
+
+👉 [Demo en producción (Vercel)](https://challenge-podcast-l3k77o85a-davids-projects-9d077315.vercel.app/)
 
 ---
 
-## 🚀 Requisitos técnicos
+## 📌 Características principales
 
-- Node.js >= 18
-- npm o yarn
+- **Single Page Application** con React + TypeScript + Vite.
+- **Arquitectura FSD (Feature-Sliced Design)** para escalar el proyecto de forma ordenada y mantenible.
+- **Gestión de datos avanzada con React Query** (`@tanstack/react-query`).
+- **Validación de datos con Zod** para mayor robustez.
+- **Routing limpio** con React Router (sin hashes `#`).
+- **3 vistas principales**:
+  1. Listado de los 100 podcasts más populares de Apple.
+  2. Detalle de un podcast (con episodios).
+  3. Detalle de un episodio (con reproductor de audio HTML5).
+- **Cacheo inteligente**: data persistida en `localStorage` y refrescada cada 24h.
+- **Filtro en tiempo real** por título y autor.
+- **Indicador global de carga** en cada transición de ruta.
+- **UI dinámica con Framer Motion** para animaciones fluidas.
+- **Testing completo**:
+  - **Vitest** (unit tests).
+  - **Testing Library** (component tests con buenas prácticas de accesibilidad).
+  - **Playwright** (end-to-end tests).
+- **Automatización**: Husky + Lint-Staged, convenciones de commits y CI/CD con Vercel.
 
 ---
 
-## 📦 Instalación
+## 🏗️ Arquitectura y decisiones técnicas
 
-Clonar el repositorio e instalar dependencias:
+### 🔹 Feature-Sliced Design (FSD)
 
-```bash
-git clone https://github.com/Daynchu21/challenge_podcast.git
-cd challenge_podcast
-npm install
-▶️ Ejecución
-```
+El proyecto sigue la metodología **FSD**, pensada para organizar aplicaciones frontend modernas con foco en **escalabilidad, separación de responsabilidades y facilidad de mantenimiento**.
 
-🔹 Modo desarrollo
-Sirve los assets sin minificar.
-Se habilitan mensajes de error más descriptivos y hot reload.
+Estructura general del proyecto:
 
-```bash
+src/
+├── app/ # Configuración global (providers, router, estilos base)
+├── pages/ # Páginas (entry points de rutas)
+├── widgets/ # Bloques UI compuestos por features
+├── features/ # Funcionalidades específicas (ej: filtrado)
+├── entities/ # Entidades del dominio (Podcast, Episodio, Autor)
+└── shared/ # Utilidades, hooks, UI atómica, librerías comunes
+
+markdown
 Copiar código
+
+Ventajas de este enfoque:
+
+- **Escalabilidad**: al crecer el proyecto, las dependencias se mantienen controladas.
+- **Reusabilidad**: componentes y entidades se pueden reutilizar en diferentes vistas.
+- **Aislamiento**: cada capa sabe de la capa inmediatamente inferior, evitando acoplamiento innecesario.
+- **Claridad**: cualquier developer puede ubicar rápidamente dónde modificar o añadir lógica.
+
+### 🔹 Stack técnico
+
+- **React 19 + TypeScript** → tipado estático y componentes modernos.
+- **Vite** → rendimiento superior en desarrollo y build.
+- **React Router DOM** → navegación SPA sin `#`.
+- **React Query** → cacheo, sincronización de datos y revalidación automática.
+- **Zod** → validación runtime de esquemas.
+- **Framer Motion** → animaciones fluidas en UI.
+- **Sass** → estilos modulares escalables.
+- **Testing**:
+  - **Vitest** para unit tests rápidos.
+  - **Testing Library** para validar comportamiento accesible.
+  - **Playwright** para flujos end-to-end.
+- **Automatización**: Husky, lint-staged, ESLint + Prettier, commitlint.
+
+---
+
+## 🚀 Scripts disponibles
+
+En el directorio del proyecto, podés correr:
+
+| Comando                | Descripción                                                          |
+| ---------------------- | -------------------------------------------------------------------- |
+| `npm run dev`          | Levanta la app en modo **development** con Vite.                     |
+| `npm run build`        | Compila TypeScript y genera build optimizada en modo **production**. |
+| `npm run preview`      | Sirve localmente la build de producción.                             |
+| `npm run lint`         | Ejecuta ESLint sobre todo el proyecto.                               |
+| `npm run lint:fix`     | Corrige automáticamente los problemas de linting.                    |
+| `npm run format`       | Formatea el código con Prettier.                                     |
+| `npm run format:check` | Verifica formato sin modificar archivos.                             |
+| `npm run test`         | Ejecuta los **unit tests** con Vitest.                               |
+| `npm run test:e2e`     | Corre los **end-to-end tests** con Playwright.                       |
+| `npm run prepare`      | Configuración de Husky (hooks de Git).                               |
+
+---
+
+## 🌐 APIs y CORS
+
+- **Top 100 podcasts Apple**:  
+  `https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json`
+
+- **Detalle de un podcast y episodios**:  
+  `https://itunes.apple.com/lookup?id={podcastId}&media=podcast&entity=podcastEpisode&limit=20`
+
+- **Proxy CORS utilizado**:  
+  [`https://corsproxy.io/`](https://corsproxy.io/)
+
+Esto permite consumir la API de Apple sin problemas de CORS.
+
+---
+
+## 🖥️ Modo de ejecución
+
+### Development
+
+```bash
+npm install
 npm run dev
-Abrir en navegador: page.goto('/',
+Se levanta en http://localhost:5173.
 ```
 
-🔹 Modo producción
-Genera build optimizado con assets concatenados y minificados.
+Production
 
 ```bash
 Copiar código
 npm run build
 npm run preview
-Abrir en navegador: http://localhost:4173
+Sirve la build optimizada en local.
 ```
 
-🧪 Tests
-Unit/Integration → Jest + React Testing Library
+✅ Próximos pasos (si se escala a producción real)
+Integrar React Query o similar para gestionar cache y sincronización de datos.
 
-E2E → Playwright
+Añadir error boundaries y reporting centralizado.
 
-Ejecutar:
+Lazy loading de vistas para optimizar performance.
 
-```bash
-Copiar código
-# Unit + integration tests
-npm run test
-```
+Mejorar cobertura de tests (unitarios e integración).
 
-# End-to-end tests
-
-npm run test:e2e
-📂 Arquitectura del proyecto
-
-```bash
-Copiar código
-src/
-  ├── components/   # Componentes reutilizables de UI
-  ├── pages/        # Vistas principales (Home, Podcast, Episode)
-  ├── services/     # APIs y cache localStorage
-  ├── hooks/        # Custom hooks
-  ├── types/        # Definiciones TS
-  ├── App.tsx       # Configuración de rutas
-  └── main.tsx      # Entry point
-tests/              # Unit y E2E tests
-```
-
-🌐 Endpoints utilizados
-Top 100 podcasts
-https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json
-
-Detalle de un podcast
-
-https://itunes.apple.com/lookup?id={id}&media=podcast&entity=podcastEpisode&limit=20
-
-Proxy CORS (si se requiere)
-https://allorigins.win
-
-✨ Funcionalidades principales
-Listado de los 100 podcasts más populares (Apple API).
-
-Cache local: listado y detalles almacenados por 24h.
-
-Filtro inmediato de podcasts por nombre o autor.
-
-Vista de detalle con episodios y metadatos.
-
-Vista de episodio con reproductor de audio.
-
-Routing limpio con react-router-dom.
-
-Indicador de carga en cada navegación.
-
-🔧 Calidad y CI/CD
-Este repositorio incluye:
-
-```bash
-ESLint + Prettier para linting y formateo.
-
-Husky + Commitlint para commits semánticos.
-
-Tests unitarios y e2e automatizados.
-
-GitHub Actions para CI:
-
-Lint
-
-Unit tests
-
-Build
-
-E2E tests
-
-Workflow en .github/workflows/ci.yml
-```
-
-🔧 CI/CD
-
-Este repo incluye:
-
-```bash
-Lint + Prettier check
-
-Unit + E2E tests
-
-Build check (Vite)
-```
-
-Automatizado con GitHub Actions en cada PR y push a main.
-
----
-
-# ⚙️ 2. CI/CD (GitHub Actions)
-
-Crear el archivo `.github/workflows/ci.yml`:
-
-```yaml
-name: CI
-
-on:
-  push:
-    branches: [develop, main]
-  pull_request:
-    branches: [develop, main]
-
-jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Run unit tests
-        run: npm run test -- --ci --coverage
-
-      - name: Build app
-        run: npm run build
-
-      - name: Run E2E tests
-        run: npx playwright install --with-deps && npm run test:e2e
-```
+UI responsive con librería de componentes o design system interno.
