@@ -1,0 +1,31 @@
+@use '../../../../styles/variables' as *;
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.25rem;
+  height: 1.75rem;
+  padding: 0 0.55rem;
+  border-radius: $radius-badge;
+  background: $blue;
+  color: $white;
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1;
+  box-shadow: $shadow-xs;
+  user-select: none;
+
+  /* opcional: posición fija arriba derecha */
+  &.fixed {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 100;
+  }
+
+  /* hover/active por si es clicable en el futuro */
+  &:hover {
+    background: $blue-dark;
+  }
+}

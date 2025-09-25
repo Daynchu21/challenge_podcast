@@ -1,6 +1,6 @@
 import React from 'react';
 import style from './details-track.module.scss';
-import type { detailsTrackProps } from '../../../../types';
+import type { detailsTrackProps } from '../../../../entities';
 
 const DetailsTrack: React.FC<detailsTrackProps> = ({ title, description, urlAudio }) => {
   return (
