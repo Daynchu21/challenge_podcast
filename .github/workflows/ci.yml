@@ -9,6 +9,10 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    env:
+      VITE_KEY_PODCAST_STORAGE: ${{ vars.VITE_KEY_PODCAST_STORAGE }}
+      VITE_KEY_PODCAST_TRACK_STORAGE: ${{ vars.VITE_KEY_PODCAST_TRACK_STORAGE }}
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -16,7 +20,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18.20.3' # versión LTS estable
+          node-version: '22.16.0' # versión LTS estable
           cache: 'npm'
 
       - name: Install dependencies
