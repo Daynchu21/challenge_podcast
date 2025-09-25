@@ -12,9 +12,9 @@ const DetailsChapterHome: React.FC = () => {
     return data?.episodes.find((t) => t.id === Number(episodeId));
   }, [data, episodeId]);
 
-  if (isLoading) return <p>Cargando...</p>;
-  if (error) return <p>Error al cargar detalles del podcast</p>;
-  if (!data) return <p>No hay datos disponibles</p>;
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error loading podcast details</p>;
+  if (!data) return <p>No data available</p>;
 
   return (
     <div className={style.podcastLayout}>

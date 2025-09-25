@@ -9,13 +9,13 @@ const AppRoutes: React.FC = () => (
   <BrowserRouter>
     <Header />
     <main>
-      <React.Suspense fallback={<div>Cargando...</div>}>
+      <React.Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
             path="/podcast/:podcastId"
             element={
-              <React.Suspense fallback={<div>Cargando podcast...</div>}>
+              <React.Suspense fallback={<div>Loading podcast...</div>}>
                 <DetailsPodcastHome />
               </React.Suspense>
             }
@@ -23,7 +23,7 @@ const AppRoutes: React.FC = () => (
           <Route
             path="/podcast/:podcastId/episode/:episodeId"
             element={
-              <React.Suspense fallback={<div>Cargando episodio...</div>}>
+              <React.Suspense fallback={<div>Loading episode...</div>}>
                 <DetailsChapterHome />
               </React.Suspense>
             }
