@@ -22,7 +22,7 @@ const Home: React.FC = () => {
   if (isLoading)
     return (
       <p className={styles.loading} data-testid="loader">
-        Cargando...
+        Loading...
       </p>
     );
   if (error) return <p className={styles.error}>Error al cargar podcasts</p>;
