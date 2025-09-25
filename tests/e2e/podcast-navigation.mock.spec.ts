@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('navegación back/forward entre Home y detalle', async ({ page }) => {
   // Ir a Home
-  await page.goto('http://localhost:5173', { waitUntil: 'networkidle' });
+  await page.goto('/', { waitUntil: 'networkidle' });
 
   const podcastItems = page.getByTestId('podcast-item');
   await expect(podcastItems.first()).toBeVisible();

@@ -6,3 +6,5 @@ export interface PodcastIF {
   images: string;
   rights?: string;
 }
+
+export type ImageInput = { '@_href'?: string; url?: string } | Record<string, unknown>;

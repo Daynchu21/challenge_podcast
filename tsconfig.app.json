@@ -22,12 +22,15 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "types": ["@playwright/test"]
+    "types": ["@playwright/test", "vitest/globals"]
   },
   "include": [
     "src",
     "playwright.config.ts",
     "tests/e2e/**/*.ts",
-    "tests/**/*.ts"
+    "tests/**/*.ts",
+    "tests/podcastCard.view.test.tsx",
+    "tests/fetch.postcard.test.tsx",
+    "tests/searchInput.test.tsx"
   ]
 }

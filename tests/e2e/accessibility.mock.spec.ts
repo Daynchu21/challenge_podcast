@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('accesibilidad básica en Home', async ({ page }) => {
-  await page.goto('http://localhost:5173', { waitUntil: 'networkidle' });
+  await page.goto('/', { waitUntil: 'networkidle' });
 
   // Validar que todos los img tengan alt
   const images = await page.locator('img').all();
