@@ -2,7 +2,7 @@
 import { test, expect } from '@playwright/test';
 
 test('flujo real con allorigins', async ({ page }) => {
-  await page.goto('http://localhost:5173');
+  await page.goto('/');
   // 1. Home: esperar a que carguen podcasts
   await expect(page.getByTestId('podcast-item').first()).toBeVisible();
 

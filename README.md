@@ -30,7 +30,7 @@ Se habilitan mensajes de error más descriptivos y hot reload.
 ```bash
 Copiar código
 npm run dev
-Abrir en navegador: http://localhost:5173
+Abrir en navegador: page.goto('/',
 ```
 
 🔹 Modo producción

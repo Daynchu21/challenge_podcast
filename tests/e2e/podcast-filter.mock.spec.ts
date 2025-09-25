@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('filtra podcasts en Home', async ({ page }) => {
-  await page.goto('http://localhost:5173');
+  await page.goto('/');
 
   // Esperar lista inicial
   const podcastItems = page.getByTestId('podcast-item');
