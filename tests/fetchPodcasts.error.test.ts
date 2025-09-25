@@ -1,10 +1,9 @@
-// tests/fetchPodcasts.error.test.ts
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { fetchApi } from '../src/shared/lib/fetch';
 import { fetchPodcasts } from '../src/features/fetch-podcasts/usePodcasts';
+import { fetchApi } from '../src/shared/lib/fetch';
 
 vi.mock('@/shared/lib/fetch', () => ({
-  fetchApi: vi.fn(),
+  fetchApi: vi.fn(), // ya será mock
 }));
 
 describe('fetchPodcasts - error handling', () => {
@@ -16,12 +15,15 @@ describe('fetchPodcasts - error handling', () => {
   it('debe loguear error y devolver [] si la API falla', async () => {
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
-    (fetchApi as any).mockRejectedValue(new Error('Network error'));
+    // 👇 convertir a función mockeada
+    const mockedFetchApi = vi.mocked(fetchApi);
+
+    mockedFetchApi.mockRejectedValue(new Error('Network error'));
 
     const result = await fetchPodcasts();
 
-    expect(result).toEqual([]); // ✅ retorna array vacío
-    expect(consoleSpy).toHaveBeenCalledWith('Network error'); // ✅ loguea error
+    expect(result).toEqual([]);
+    expect(consoleSpy).toHaveBeenCalledWith('Network error');
 
     consoleSpy.mockRestore();
   });

@@ -1,7 +1,9 @@
-// src/utils/parseRssResponse.ts
 import { XMLParser } from 'fast-xml-parser';
+import type { AllOriginsResponse } from '../../entities';
 
-export async function parseXMLResponse(response: Response | any): Promise<any> {
+export async function parseXMLResponse(
+  response: Response | AllOriginsResponse | string,
+): Promise<Record<string, unknown>> {
   let xmlText: string | null = null;
 
   // 1. Si viene de fetchApi (Response cruda)
@@ -9,8 +11,8 @@ export async function parseXMLResponse(response: Response | any): Promise<any> {
     const rawText = await response.text();
 
     try {
-      // Intentar parsear como JSON (AllOrigins)
-      const json = JSON.parse(rawText);
+      // Intentar parsear como JSON (ej. AllOrigins)
+      const json = JSON.parse(rawText) as AllOriginsResponse;
 
       if (typeof json.contents === 'string') {
         if (json.contents.startsWith('data:application/rss+xml')) {
@@ -28,13 +30,14 @@ export async function parseXMLResponse(response: Response | any): Promise<any> {
     }
   }
 
-  // 2. Si ya te pasan el "data" procesado (caso responseArtist.data)
-  else if (response?.contents) {
-    if (response.contents.startsWith('data:application/rss+xml')) {
-      const base64 = response.contents.split(',')[1];
+  // 2. Si ya te pasan el "data" procesado
+  else if (typeof response === 'object' && response !== null && 'contents' in response) {
+    const r = response as AllOriginsResponse;
+    if (r.contents.startsWith('data:application/rss+xml')) {
+      const base64 = r.contents.split(',')[1];
       xmlText = atob(base64);
     } else {
-      xmlText = response.contents;
+      xmlText = r.contents;
     }
   }
 
@@ -53,5 +56,5 @@ export async function parseXMLResponse(response: Response | any): Promise<any> {
     removeNSPrefix: true,
   });
 
-  return parser.parse(xmlText);
+  return parser.parse(xmlText) as Record<string, unknown>;
 }

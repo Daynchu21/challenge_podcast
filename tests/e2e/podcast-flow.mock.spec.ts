@@ -105,7 +105,7 @@ test.beforeEach(async ({ page }) => {
 
 test('flujo completo con datos mockeados', async ({ page }) => {
   // 1. Home
-  await page.goto('http://localhost:5173', { waitUntil: 'networkidle' });
+  await page.goto('/', { waitUntil: 'networkidle' });
   await expect(page.getByTestId('podcast-item')).toContainText('Fake Podcast');
   // 2. Detalle del podcast
   await page.getByTestId('podcast-item').click();

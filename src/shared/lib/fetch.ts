@@ -1,16 +1,25 @@
-export type FetchOptions = {
+export type FetchOptions<TBody = unknown> = {
   method?: 'GET' | 'POST';
   headers?: Record<string, string>;
-  body?: any;
+  body?: TBody;
 };
 
-export type FetchResult = {
-  data: any | null;
-  error?: null | { status: number; message: string | null }; // Simplified error handl
+export type FetchError = {
+  status: number;
+  message: string | null;
 };
 
-export async function fetchApi(url: string, options: FetchOptions = {}): Promise<FetchResult> {
+export type FetchResult<TData> = {
+  data: TData | null;
+  error?: FetchError | null;
+};
+
+export async function fetchApi<TData = unknown, TBody = unknown>(
+  url: string,
+  options: FetchOptions<TBody> = {},
+): Promise<FetchResult<TData>> {
   const { method = 'GET', headers = {}, body } = options;
+
   const fetchOptions: RequestInit = {
     method,
     headers: {
@@ -18,19 +27,26 @@ export async function fetchApi(url: string, options: FetchOptions = {}): Promise
       ...headers,
     },
   };
-  if (method === 'POST' && body) {
+
+  if (method === 'POST' && body !== undefined) {
     fetchOptions.body = JSON.stringify(body);
   }
+
   try {
     const res = await fetch(url, fetchOptions);
+
     if (!res.ok) {
       return {
         data: null,
-        error: { status: res.status, message: typeof res === 'string' ? res : res.statusText },
+        error: {
+          status: res.status,
+          message: res.statusText ?? null,
+        },
       };
     }
 
-    return { data: res };
+    // devolvemos Response crudo, el caller decide si hace .json(), .text(), etc.
+    return { data: res as unknown as TData, error: null };
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(error.message);

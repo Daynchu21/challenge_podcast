@@ -22,7 +22,7 @@ export async function fetchPodcasts() {
       `https://corsproxy.io/?${encodeURIComponent('https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json')}`,
       { method: 'GET' },
     );
-    let json: any;
+    let json;
     if (res.data instanceof Response) {
       json = await res.data.json(); // parsea aquí
     } else {
