@@ -12,7 +12,7 @@ jobs:
       github.event.pull_request.head.ref == 'develop'
     runs-on: ubuntu-latest
     permissions:
-      contents: write # necesario para crear tags y releases
+      contents: write
     steps:
       - name: Checkout repository at merge commit
         uses: actions/checkout@v4
@@ -27,7 +27,6 @@ jobs:
 
       - name: Read package version
         id: pkg
-        shell: bash
         run: |
           VERSION=$(node -p "require('./package.json').version")
           if [ -z "$VERSION" ]; then
@@ -38,10 +37,9 @@ jobs:
 
       - name: Prepare release notes (fallback)
         id: notes
-        shell: bash
         run: |
           {
-            echo "body<<'EOF'"
+            echo "body<<EOF"
             echo "### Cambios incluidos"
             echo
             echo "- Merge de \`develop\` a \`main\`"
