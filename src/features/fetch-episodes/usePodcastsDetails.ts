@@ -27,11 +27,11 @@ async function fetchPodcastsDetails(podcastId: string): Promise<PodcastsDetailRe
   }
 
   try {
-    const res = await fetchApi(
+    const res = await fetchApi<Response>(
       `https://corsproxy.io/?${encodeURIComponent(`https://itunes.apple.com/lookup?id=${podcastId}&media=podcast&entity=podcastEpisode&limit=20`)}`,
       { method: 'GET' },
     );
-    const dataJson = await res.data.json();
+    const dataJson = await res.data?.json();
     if (dataJson.results && dataJson.results.length > 0) {
       const authorElement = dataJson.results.shift();
       const feedUrl = authorElement.feedUrl;
@@ -44,8 +44,12 @@ async function fetchPodcastsDetails(podcastId: string): Promise<PodcastsDetailRe
           );
 
           if (responseArtist) {
-            const parsedXml = await parseXMLResponse(responseArtist.data);
-            channel = parsedXml.rss?.channel;
+            const parsedXml = await parseXMLResponse(responseArtist.data as string | Response);
+
+            if (typeof parsedXml === 'object' && parsedXml !== null && 'rss' in parsedXml) {
+              const rss = parsedXml.rss as { channel?: unknown };
+              channel = rss.channel;
+            }
           }
         } catch (error) {
           if (error instanceof Error) {
@@ -56,7 +60,7 @@ async function fetchPodcastsDetails(podcastId: string): Promise<PodcastsDetailRe
         }
       }
       const author = adapterFunction<podcastAuthorSchemaIF, PodcastAuthor>(
-        channel,
+        channel as podcastAuthorSchemaIF,
         RssAuthorSchema,
         normalizeRssAuthor,
       );

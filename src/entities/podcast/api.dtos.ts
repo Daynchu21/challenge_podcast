@@ -1,4 +1,5 @@
 import z from 'zod';
+import type { ImageInput } from './model';
 
 export const ItunesEpisodeSchema = z.object({
   trackId: z.number(),
@@ -19,11 +20,16 @@ export const RssAuthorSchema = z.object({
   author: z.string(),
   image: z.preprocess((val) => {
     if (Array.isArray(val)) {
-      const itunesImg = val.find((img: any) => img['@_href']);
-      const rssImg = val.find((img: any) => img.url);
-      return itunesImg?.['@_href'] || rssImg?.url;
+      const itunesImg = val.find(
+        (img): img is { '@_href': string } => typeof img['@_href'] === 'string',
+      );
+      const rssImg = val.find((img): img is { url: string } => typeof img.url === 'string');
+
+      return itunesImg?.['@_href'] ?? rssImg?.url;
     } else if (val && typeof val === 'object') {
-      return (val as any)['@_href'] || (val as any).url;
+      const obj = val as ImageInput;
+      if (typeof obj['@_href'] === 'string') return obj['@_href'];
+      if (typeof obj.url === 'string') return obj.url;
     }
     return undefined;
   }, z.string()),

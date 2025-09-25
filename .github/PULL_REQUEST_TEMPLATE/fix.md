@@ -1,25 +1,16 @@
-## 🐛 Bug Fix
+## 🐞 Fix de Bug
 
 ### Descripción
 
-<!-- Explica qué bug se corrige -->
+<!-- ¿Qué problema resuelve este fix? -->
 
-### Pasos para reproducir el bug
+### Pasos para reproducir
 
-<!-- (Opcional) Lista de pasos para reproducir el problema antes del fix -->
-
-### Solución aplicada
-
-<!-- Explica cómo solucionaste el bug -->
-
-### Cambios incluidos
-
-- [ ] Fix aplicado
-- [ ] Tests agregados/actualizados para prevenir regresiones
-- [ ] Documentación revisada (si aplica)
+1. Paso A
+2. Paso B
+3. Resultado esperado
 
 ### Checklist
 
-- [ ] Linting OK (`npm run lint`)
-- [ ] Tests pasan (`npm test`)
-- [ ] Build pasa (`npm run build`)
+- [ ] Bug corregido
+- [ ] Tests que prueban la corrección
