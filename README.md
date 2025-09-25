@@ -60,7 +60,7 @@ Con este setup, el repositorio no solo cumple la prueba técnica, sino que tambi
 El proyecto sigue la metodología **FSD**, pensada para organizar aplicaciones frontend modernas con foco en **escalabilidad, separación de responsabilidades y facilidad de mantenimiento**.
 
 Estructura general del proyecto:
-
+```bash
 src/
 ├── app/ # Configuración global (providers, router, estilos base)
 ├── pages/ # Páginas (entry points de rutas)
@@ -68,7 +68,7 @@ src/
 ├── features/ # Funcionalidades específicas (ej: filtrado)
 ├── entities/ # Entidades del dominio (Podcast, Episodio, Autor)
 └── shared/ # Utilidades, hooks, UI atómica, librerías comunes
-
+```
 Ventajas de este enfoque:
 
 - **Escalabilidad**: al crecer el proyecto, las dependencias se mantienen controladas.
