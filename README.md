@@ -1,140 +1,142 @@
 # 🎧 Challenge Podcast – Frontend
 
-Mini aplicación SPA para explorar y reproducir podcasts musicales, desarrollada como parte de la prueba técnica **Frontend INDITEX**.
+Mini SPA application to explore and play music podcasts, developed for the **Frontend INDITEX** technical challenge.
 
-👉 [Demo en producción (Vercel)](https://challenge-podcast-l3k77o85a-davids-projects-9d077315.vercel.app/)
+👉 [Production Demo (Vercel)](https://challenge-podcast-l3k77o85a-davids-projects-9d077315.vercel.app/)
 
 ---
 
-## 📌 Características principales
+## 📌 Main Features
 
-- **Single Page Application** con React + TypeScript + Vite.
-- **Arquitectura FSD (Feature-Sliced Design)** para escalar el proyecto de forma ordenada y mantenible.
-- **Gestión de datos avanzada con React Query** (`@tanstack/react-query`).
-- **Validación de datos con Zod** para mayor robustez.
-- **Routing limpio** con React Router (sin hashes `#`).
-- **3 vistas principales**:
-  1. Listado de los 100 podcasts más populares de Apple.
-  2. Detalle de un podcast (con episodios).
-  3. Detalle de un episodio (con reproductor de audio HTML5).
-- **Cacheo inteligente**: data persistida en `localStorage` y refrescada cada 24h.
-- **Filtro en tiempo real** por título y autor.
-- **Indicador global de carga** en cada transición de ruta.
-- **UI dinámica con Framer Motion** para animaciones fluidas.
-- **Testing completo**:
+- **Single Page Application** with React + TypeScript + Vite.
+- **FSD Architecture (Feature-Sliced Design)** for scalable and maintainable project structure.
+- **Advanced data management with React Query** (`@tanstack/react-query`).
+- **Data validation with Zod** for robustness.
+- **Clean routing** with React Router (no `#` hashes).
+- **3 main views**:
+  1. List of the 100 most popular Apple podcasts.
+  2. Podcast details (with episodes).
+  3. Episode details (with HTML5 audio player).
+- **Smart caching**: data persisted in `localStorage` and refreshed every 24h.
+- **Real-time filter** by title and author.
+- **Global loading indicator** on every route transition.
+- **Dynamic UI with Framer Motion** for smooth animations.
+- **Comprehensive testing**:
   - **Vitest** (unit tests).
-  - **Testing Library** (component tests con buenas prácticas de accesibilidad).
+  - **Testing Library** (component tests with accessibility best practices).
   - **Playwright** (end-to-end tests).
-- **Automatización**: Husky + Lint-Staged, convenciones de commits y CI/CD con Vercel.
+- **Automation**: Husky + Lint-Staged, commit conventions, and CI/CD with Vercel.
 
 ---
 
-## ⚙️ Automatización y CI/CD
+## ⚙️ Automation & CI/CD
 
-Este proyecto cuenta con un setup de **DevOps y calidad de código** completo:
+This project features a complete **DevOps and code quality** setup:
 
 ### 🔹 GitHub Actions Workflows
 
-- **`ci.yml`** → Pipeline de integración continua: lint, build y tests.
-- **`playwright.yml`** → Corre tests end-to-end en cada PR.
-- **`guard-main.yml`** → Asegura que la rama `main` siempre esté protegida.
-- **`auto-release-pr.yml`** y **`release-please.yml`** → Generación automática de changelog, versionado semántico y releases.
-- **`tag-on-merge.yml`** → Etiquetado automático de versiones al hacer merge.
+- **`ci.yml`** → Continuous integration pipeline: lint, build, and tests.
+- **`playwright.yml`** → Runs end-to-end tests on every PR.
+- **`guard-main.yml`** → Ensures the `main` branch is always protected.
+- **`auto-release-pr.yml`** and **`release-please.yml`** → Automatic changelog generation, semantic versioning, and releases.
+- **`tag-on-merge.yml`** → Automatic version tagging on merge.
 
-### 🔹 Mantenimiento y calidad
+### 🔹 Maintenance & Quality
 
-- **Dependabot** → Automatiza la actualización de dependencias.
-- **CODEOWNERS** → Define revisores responsables de cada parte del código.
-- **Pull Request Templates** (`feature.md`, `fix.md`, `default.md`) → Estandarizan la calidad y contexto de cada PR.
+- **Dependabot** → Automates dependency updates.
+- **CODEOWNERS** → Defines responsible reviewers for each part of the code.
+- **Pull Request Templates** (`feature.md`, `fix.md`, `default.md`) → Standardize quality and context for every PR.
 
-Con este setup, el repositorio no solo cumple la prueba técnica, sino que también refleja prácticas de **equipo senior/lead**:
+With this setup, the repository not only meets the technical challenge but also reflects **senior/lead team practices**:
 
-- **Entrega continua** con releases versionados automáticamente.
-- **Calidad garantizada** por pipelines de lint, test unitarios y e2e.
-- **Colaboración organizada** gracias a PR templates y code owners.
+- **Continuous delivery** with automatically versioned releases.
+- **Guaranteed quality** via lint, unit, and e2e test pipelines.
+- **Organized collaboration** thanks to PR templates and code owners.
 
-## 🏗️ Arquitectura y decisiones técnicas
+## 🏗️ Architecture & Technical Decisions
 
 ### 🔹 Feature-Sliced Design (FSD)
 
-El proyecto sigue la metodología **FSD**, pensada para organizar aplicaciones frontend modernas con foco en **escalabilidad, separación de responsabilidades y facilidad de mantenimiento**.
+The project follows the **FSD** methodology, designed to organize modern frontend apps with a focus on **scalability, separation of concerns, and maintainability**.
 
-Estructura general del proyecto:
+General project structure:
+
 ```bash
 src/
-├── app/ # Configuración global (providers, router, estilos base)
-├── pages/ # Páginas (entry points de rutas)
-├── widgets/ # Bloques UI compuestos por features
-├── features/ # Funcionalidades específicas (ej: filtrado)
-├── entities/ # Entidades del dominio (Podcast, Episodio, Autor)
-└── shared/ # Utilidades, hooks, UI atómica, librerías comunes
+├── app/ # Global config (providers, router, base styles)
+├── pages/ # Pages (route entry points)
+├── widgets/ # UI blocks composed of features
+├── features/ # Specific functionalities (e.g., filtering)
+├── entities/ # Domain entities (Podcast, Episode, Author)
+└── shared/ # Utilities, hooks, atomic UI, common libraries
 ```
-Ventajas de este enfoque:
 
-- **Escalabilidad**: al crecer el proyecto, las dependencias se mantienen controladas.
-- **Reusabilidad**: componentes y entidades se pueden reutilizar en diferentes vistas.
-- **Aislamiento**: cada capa sabe de la capa inmediatamente inferior, evitando acoplamiento innecesario.
-- **Claridad**: cualquier developer puede ubicar rápidamente dónde modificar o añadir lógica.
+Advantages of this approach:
 
-### 🔹 Stack técnico
+- **Scalability**: as the project grows, dependencies remain controlled.
+- **Reusability**: components and entities can be reused across views.
+- **Isolation**: each layer knows only the immediately lower layer, avoiding unnecessary coupling.
+- **Clarity**: any developer can quickly locate where to modify or add logic.
 
-- **React 19 + TypeScript** → tipado estático y componentes modernos.
-- **Vite** → rendimiento superior en desarrollo y build.
-- **React Router DOM** → navegación SPA sin `#`.
-- **React Query** → cacheo, sincronización de datos y revalidación automática.
-- **Zod** → validación runtime de esquemas.
-- **Framer Motion** → animaciones fluidas en UI.
-- **Sass** → estilos modulares escalables.
+### 🔹 Tech Stack
+
+- **React 19 + TypeScript** → static typing and modern components.
+- **Vite** → superior performance in development and build.
+- **React Router DOM** → SPA navigation without `#`.
+- **React Query** → caching, data sync, and auto revalidation.
+- **Zod** → runtime schema validation.
+- **Framer Motion** → smooth UI animations.
+- **Sass** → scalable modular styles.
 - **Testing**:
-  - **Vitest** para unit tests rápidos.
-  - **Testing Library** para validar comportamiento accesible.
-  - **Playwright** para flujos end-to-end.
-- **Automatización**: Husky, lint-staged, ESLint + Prettier, commitlint.
+  - **Vitest** for fast unit tests.
+  - **Testing Library** for accessible behavior validation.
+  - **Playwright** for end-to-end flows.
+- **Automation**: Husky, lint-staged, ESLint + Prettier, commitlint.
 
 ---
 
-## 🚀 Scripts disponibles
+## 🚀 Available Scripts
 
-En el directorio del proyecto, podés correr:
+In the project directory, you can run:
 
-| Comando                | Descripción                                                          |
+| Command                | Description                                                          |
 | ---------------------- | -------------------------------------------------------------------- |
-| `npm run dev`          | Levanta la app en modo **development** con Vite.                     |
-| `npm run build`        | Compila TypeScript y genera build optimizada en modo **production**. |
-| `npm run preview`      | Sirve localmente la build de producción.                             |
-| `npm run lint`         | Ejecuta ESLint sobre todo el proyecto.                               |
-| `npm run lint:fix`     | Corrige automáticamente los problemas de linting.                    |
-| `npm run format`       | Formatea el código con Prettier.                                     |
-| `npm run format:check` | Verifica formato sin modificar archivos.                             |
-| `npm run test`         | Ejecuta los **unit tests** con Vitest.                               |
-| `npm run test:e2e`     | Corre los **end-to-end tests** con Playwright.                       |
-| `npm run prepare`      | Configuración de Husky (hooks de Git).                               |
+| `npm run dev`          | Starts the app in **development** mode with Vite.                    |
+| `npm run build`        | Compiles TypeScript and generates an optimized **production** build. |
+| `npm run preview`      | Serves the production build locally.                                 |
+| `npm run lint`         | Runs ESLint on the entire project.                                   |
+| `npm run lint:fix`     | Automatically fixes linting issues.                                  |
+| `npm run format`       | Formats code with Prettier.                                          |
+| `npm run format:check` | Checks formatting without modifying files.                           |
+| `npm run test`         | Runs **unit tests** with Vitest.                                     |
+| `npm run test:e2e`     | Runs **end-to-end tests** with Playwright.                           |
+| `npm run prepare`      | Husky setup (Git hooks).                                             |
 
 ---
 
-## 🌐 APIs y CORS
+## 🌐 APIs & CORS
 
-- **Top 100 podcasts Apple**:  
+- **Top 100 Apple podcasts**:  
   `https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json`
 
-- **Detalle de un podcast y episodios**:  
+- **Podcast details & episodes**:  
   `https://itunes.apple.com/lookup?id={podcastId}&media=podcast&entity=podcastEpisode&limit=20`
 
-- **Proxy CORS utilizado**:  
+- **CORS proxy used**:  
   [`https://corsproxy.io/`](https://corsproxy.io/)
 
-Esto permite consumir la API de Apple sin problemas de CORS.
+This allows consuming the Apple API without CORS issues.
 
 ---
 
-## 🖥️ Modo de ejecución
+## 🖥️ Running Modes
 
 ### Development
 
 ```bash
 npm install
 npm run dev
-Se levanta en http://localhost:5173.
+Runs at http://localhost:5173.
 ```
 
 Production
@@ -142,5 +144,5 @@ Production
 ```bash
 npm run build
 npm run preview
-Sirve la build optimizada en local.
+Serves the optimized build locally.
 ```
