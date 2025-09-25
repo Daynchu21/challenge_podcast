@@ -1,0 +1,52 @@
+@use '../../styles/variables' as *;
+
+.podcastCard {
+  width: 100%;
+  border-radius: $radius-card;
+  box-shadow: $shadow-lg;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  gap: 1rem;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  .author {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    font-style: italic;
+  }
+
+  .descriptionLabel {
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+  }
+
+  .descriptionText {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    font-style: italic;
+  }
+
+  .hr {
+    border-top: $border-hr;
+  }
+}

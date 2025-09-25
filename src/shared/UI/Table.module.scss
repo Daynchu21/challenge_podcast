@@ -1,0 +1,43 @@
+@use '../../styles/variables' as *;
+
+.containerTable {
+  width: 100%;
+  box-shadow: $shadow-lg;
+  padding: 1rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead {
+    background-color: $table-header-bg;
+
+    th {
+      text-align: left;
+      font-weight: 600;
+      color: $table-header-color;
+      padding: 0.75rem 1rem;
+      border-bottom: $table-border;
+    }
+  }
+}
+
+.table tr:nth-child(even) {
+  background: $table-row-even-bg;
+}
+
+.table tr:nth-child(odd) {
+  background: $table-row-odd-bg;
+}
+
+.table td {
+  font: 0.9em sans-serif;
+  padding: 0.75rem;
+}
+
+.table__title {
+  color: $blue;
+  font-weight: 600;
+  cursor: pointer;
+}

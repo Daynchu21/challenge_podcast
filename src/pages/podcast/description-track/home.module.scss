@@ -1,18 +1,20 @@
+@use '../../../styles/variables' as *;
+
 .podcastLayout {
   display: grid;
-  grid-template-columns: 300px 1fr; // izquierda 300px, derecha flexible
-  gap: 4rem;
+  grid-template-columns: $podcast-sidebar-width 1fr;
+  gap: $gap-lg;
   align-items: start;
   font-family: Arial, sans-serif;
 
-  @media (max-width: 900px) {
+  @media (max-width: $breakpoint-md) {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: $gap-md;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: $breakpoint-sm) {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: $gap-sm;
     padding: 0.5rem;
   }
 }

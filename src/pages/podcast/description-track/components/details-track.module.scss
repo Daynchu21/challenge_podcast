@@ -1,5 +1,4 @@
-$shadow-sm: -1px 0px 8px -1px rgba(0, 0, 0, 0.51);
-$border-card: 1px solid #e5e7eb;
+@use '../../../../styles/variables' as *;
 
 .container {
   width: 100%;
@@ -12,5 +11,5 @@ $border-card: 1px solid #e5e7eb;
 }
 
 .hr {
-  border-top: 1px solid rgb(213, 213, 213);
+  border-top: $border-hr;
 }

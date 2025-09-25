@@ -7,7 +7,7 @@ const HeaderTrack: React.FC<headerTrackProps> = ({ trackCounts }) => {
   return (
     <div
       style={{
-        boxShadow: '-1px 0px 8px -1px rgba(0, 0, 0, 0.51)',
+        boxShadow: 'var(--shadow-lg)',
         padding: '1rem',
       }}
     >

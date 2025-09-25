@@ -1,3 +1,14 @@
+// Podcast layout gaps
+$gap-lg: 4rem;
+$gap-md: 2rem;
+$gap-sm: 1rem;
+// Table variables
+$table-header-bg: #f9f9f9;
+$table-header-color: #333;
+$table-border: 2px solid #e5e7eb;
+$table-row-even-bg: #f0f0f0;
+$table-row-odd-bg: #fff;
+$podcast-sidebar-width: 300px;
 // _variables.scss
 
 // Breakpoints
@@ -14,14 +25,23 @@ $color-muted: #6b7280;
 $color-muted-bg: #f3f4f6;
 $color-border: #e5e7eb;
 $color-focus: #2563eb;
+$blue: #0ea5e9;
+$blue-dark: #0284c7;
+$white: #fff;
 
 // Sombra
+$shadow-xs: 0 2px 6px rgba(2, 132, 199, 0.08);
 $shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
 $shadow-md: 0 6px 18px rgba(0, 0, 0, 0.08);
+$shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.1);
 
 // Border radius
 $radius-card: 1rem;
-$radius-image: 9999px;
+$radius-image: 50%;
+$radius-badge: 12px;
 
 // Otros
 $border-card: 1px solid $color-border;
+$border-hr: 1px solid rgb(213, 213, 213);
+
+$header-h: 64px;

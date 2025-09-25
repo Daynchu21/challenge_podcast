@@ -21,7 +21,13 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+    "types": ["@playwright/test"]
   },
-  "include": ["src", "playwright.config.ts", "tests/**/*.ts"]
+  "include": [
+    "src",
+    "playwright.config.ts",
+    "tests/e2e/**/*.ts",
+    "tests/**/*.ts"
+  ]
 }
