@@ -27,7 +27,7 @@
     "framer-motion": "^12.23.16",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "react-router-dom": "^7.9.1",
+    "react-router-dom": "^7.9.3",
     "sass": "^1.93.0",
     "vitest": "^3.2.4",
     "zod": "^4.1.11"
